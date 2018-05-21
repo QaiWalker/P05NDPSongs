@@ -16,20 +16,25 @@ public class ShowActivity extends AppCompatActivity {
     Button btnFilter;
     ListView lv;
     ArrayList<Song> song;
-    ArrayAdapter aa;
+    SongAdapter aa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
         song = new ArrayList<Song>();
+       // aa.clear();
+//        song.add(new Song("Home", "Kit Chan", 1998, 5));
+//        song.add(new Song("Our Singapore", "JJ Lin/Dick Lee", 2015, 5));
+//        song.add(new Song("Future in My Dreams", "SAF Music and Drama Company", 1997, 4));
+        DBHelper dbh = new DBHelper(ShowActivity.this);
 
-        song.add(new Song("Home", "Kit Chan", 1998, 5));
-        song.add(new Song("Our Singapore", "JJ Lin/Dick Lee", 2015, 5));
-        song.add(new Song("Future in My Dreams", "SAF Music and Drama Company", 1997, 4));
+        song = dbh.getAllSongs();
+        aa = new SongAdapter(this,R.layout.row,song);
+        dbh.close();
 
         lv = (ListView)findViewById(R.id.lv);
-        aa = new SongAdapter(this, R.layout.row, song);
+
         lv.setAdapter(aa);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,7 +45,7 @@ public class ShowActivity extends AppCompatActivity {
                         ModifyActivity.class);
                 Song data = song.get(position);
                 i.putExtra("data", data);
-                startActivityForResult(i, 9);
+                startActivity(i);
             }
         });
     }

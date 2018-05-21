@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ public class ModifyActivity extends AppCompatActivity {
     TextView tvShowEditID;
     RadioGroup rg;
     Button btnUpdate, btnDelete, btnCancel;
+    RadioButton radio1, radio2, radio3, radio4, radio5;
     Song data;
 
     @Override
@@ -33,10 +35,31 @@ public class ModifyActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         data = (Song) i .getSerializableExtra("data");
-        tvShowEditID.setText(data.getId());
+        tvShowEditID.setText(""+data.getId());
         etEditSongTitle.setText(data.getTitle());
         etEditSingers.setText(data.getSingers());
-        etEditYear.setText(data.getYear());
+        etEditYear.setText(""+data.getYear());
+        if (data.getStars() == 5){
+            radio5 = findViewById(R.id.radio5);
+            radio5.setChecked(true);
+        }
+        else if (data.getStars() == 4){
+            radio4 = findViewById(R.id.radio4);
+            radio4.setChecked(true);
+        }
+        else if (data.getStars() == 3){
+            radio3 = findViewById(R.id.radio3);
+            radio3.setChecked(true);
+        }
+        else if (data.getStars() == 2){
+            radio2 = findViewById(R.id.radio2);
+            radio2.setChecked(true);
+        }
+        else {
+            radio1 = findViewById(R.id.radio1);
+            radio1.setChecked(true);
+        }
+
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +84,27 @@ public class ModifyActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private int getStars() {
+        int stars = 1;
+        switch (rg.getCheckedRadioButtonId()) {
+            case R.id.radio1:
+                stars = 1;
+                break;
+            case R.id.radio2:
+                stars = 2;
+                break;
+            case R.id.radio3:
+                stars = 3;
+                break;
+            case R.id.radio4:
+                stars = 4;
+                break;
+            case R.id.radio5:
+                stars = 5;
+                break;
+        }
+        return stars;
     }
 
 }
